@@ -14,6 +14,10 @@ from telegram.ext import (
     ContextTypes,
     filters,
 )
+import os
+import json
+import logging
+from datetime import datetime
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -35,9 +39,8 @@ def get_sheet():
         "https://spreadsheets.google.com/feeds",
         "https://www.googleapis.com/auth/drive",
     ]
-    creds_dict = json.loads(os.environ["GOOGLE_CREDS_JSON"])
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(
-        creds_dict, scope
+    creds = ServiceAccountCredentials.from_json_keyfile_name(
+        "credentials.json", scope
     )
     client = gspread.authorize(creds)
     sheet = client.open(SHEET_NAME).sheet1
@@ -93,7 +96,7 @@ async def comment(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     data = context.user_data
 
-    new_id = len(sheet.get_all_values())
+    new_id = len(sheet.get_all_values()) + 1
     sheet.append_row([
         new_id,
         data["room"],
