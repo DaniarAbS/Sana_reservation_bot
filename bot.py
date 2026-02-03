@@ -39,9 +39,9 @@ def get_sheet():
         "https://spreadsheets.google.com/feeds",
         "https://www.googleapis.com/auth/drive",
     ]
-    creds = ServiceAccountCredentials.from_json_keyfile_name(
-        "credentials.json", scope
-    )
+    # creds = ServiceAccountCredentials.from_json_keyfile_name(
+    #     "credentials.json", scope
+    # )
     creds_dict = json.loads(os.environ["GOOGLE_CREDS_JSON"])
 
     creds = ServiceAccountCredentials.from_json_keyfile_dict(
